@@ -2,6 +2,7 @@ package org.launchcode.techjobs.console;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -11,7 +12,7 @@ public class TechJobs {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -60,10 +61,22 @@ public class TechJobs {
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
 
-                if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
-                } else {
-                    printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
+
+
+                    if (searchTerm.toLowerCase().equals("all")) {
+                        printJobs(JobData.findByValue("all", "All"));
+                        if (!searchTerm.toLowerCase().equals("all"));
+                        System.out.println("no jobs found");
+
+                    }
+
+                    if (searchTerm.toLowerCase().equals(searchField)) {
+                        printJobs(JobData.findByColumnAndValue("all", "All"));
+
+                    } else {
+
+                        System.out.println("no jobs found");
+
                 }
             }
         }
@@ -103,14 +116,19 @@ public class TechJobs {
                 validChoice = true;
             }
 
-        } while(!validChoice);
+        } while (!validChoice);
 
         return choiceKeys[choiceIdx];
     }
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        ArrayList<HashMap<String, String>> printJob = new ArrayList<>();
+        for (int i = 0; i < someJobs.size(); i++) {
+            System.out.println("*****\n" + someJobs.get(i));
 
-        System.out.println("printJobs is not implemented yet");
+        }
+
+
     }
 }
