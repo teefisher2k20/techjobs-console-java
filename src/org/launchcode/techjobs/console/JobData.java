@@ -7,9 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -76,13 +74,32 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.toLowerCase().contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
 
         return jobs;
     }
+
+    public static ArrayList<HashMap<String, String>> findByValue(String searchTerm) {
+        loadData();
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        for (HashMap<String, String> row : allJobs) {
+            for (Map.Entry<String, String> sections : row.entrySet()) {
+                String aValue = row.get(searchTerm);
+                if (sections.getValue().toLowerCase().contains(searchTerm.toLowerCase())) {
+                    jobs.add(row);
+
+                }
+            }
+        }
+        Set<HashMap<String, String>> freshJobs = new HashSet<>(jobs);
+        jobs.clear();
+        jobs.addAll(freshJobs);
+        return jobs;
+    }
+
 
     /**
      * Read in data from a CSV file and store it in a list
@@ -124,25 +141,5 @@ public class JobData {
             e.printStackTrace();
         }
     }
-
-    public static ArrayList<HashMap<String, String>> findByValue(String column, String value) {
-
-        // load data, if not already loaded
-        loadData();
-
-        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
-
-        for (HashMap<String, String> row : allJobs) {
-
-            String aColumn = row.get(value);
-
-            if (aColumn.toLowerCase().contains("value")) {
-                jobs.add(row);
-                //JobData.findByValue("all", "All");
-            }
-        }
-
-        return jobs;
-    }
-
 }
+
