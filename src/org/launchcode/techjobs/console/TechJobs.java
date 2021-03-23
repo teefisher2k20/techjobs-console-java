@@ -24,7 +24,7 @@ public class TechJobs {
         actionChoices.put("search", "Search");
         actionChoices.put("list", "List");
 
-        System.out.println("Welcome to LaunchCode's TechJobs App!");
+        System.out.println("Welcome to LaunchCode's TechJobs App!\n (ctrl + C ends application)");
 
         // Allow the user to search until they manually quit
         while (true) {
